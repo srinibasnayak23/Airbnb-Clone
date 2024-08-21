@@ -9,27 +9,27 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        filename: String,
-        url: {
-            type: String,
-            default: "https://pixabay.com/photos/mountains-lake-house-lake-house-1587287/",
-            set: (v) => v === "" ? "https://pixabay.com/photos/mountains-lake-house-lake-house-1587287/" : v,
-        },
+       url: String,
+       filename: String,
     },
     price: Number,
     location: String,
-    country: String,
+    country: String, 
     reviews: [
         {
             type: Schema.Types.ObjectId,
             ref: "Review",
         },
     ],
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    }
 });
 
 listingSchema.post("findOneAndDelete", async(listing) => {
     if(listing) {
-        await Review.deleteMany({_id: {$in: listing.reviews}});
+        await review.deleteMany({_id: {$in: listing.reviews}});
     }
 })
 
